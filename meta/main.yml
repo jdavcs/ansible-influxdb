@@ -1,0 +1,12 @@
+galaxy_info:
+  namespace: galaxyproject
+  author: John Davis, The Galaxy Project
+  description: your role description
+  company: The Galaxy Project
+  license: MIT
+  min_ansible_version: 2.20
+  github_branch: main
+  galaxy_tags:
+    - system
+    - influxdb
+dependencies: []
