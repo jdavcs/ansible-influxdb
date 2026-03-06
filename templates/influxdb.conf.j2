@@ -52,7 +52,7 @@ join = ""
   log-enabled = true
   write-tracing = false
   pprof-enabled = false
-{% if stats_ssl_certs is defined and influxdb_https_enabled is defined and influxdb_https_enabled %}
+{% if influxdb_ssl_certs is defined and influxdb_https_enabled is defined and influxdb_https_enabled %}
   https-enabled = true
   https-ca-certificate = "{{ influxdb_conf_dir }}/ca.crt"
   https-certificate = "{{ influxdb_conf_dir }}/influxdb.crt"

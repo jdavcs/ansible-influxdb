@@ -49,10 +49,10 @@
         user_password: "{{ item.user_password | default(omit) }}"
         # FIXME: I think you ran things once w/o auth required to create users, running it again from scratch would
         # error here since auth would be required but no users would exist.
-        login_username: "{{ stats_influxdb_users[0].user_name }}"
-        login_password: "{{ stats_influxdb_users[0].user_password }}"
-      loop: "{{ stats_influxdb_users | default([]) }}"
+        login_username: "{{ influxdb_users[0].user_name }}"
+        login_password: "{{ influxdb_users[0].user_password }}"
+      loop: "{{ influxdb_users | default([]) }}"
       loop_control:
         label: "{{ item.user_name }}"
 
-  when: stats_influxdb_users is defined
+  when: influxdb_users is defined
