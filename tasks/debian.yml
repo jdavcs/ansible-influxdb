@@ -1,7 +1,20 @@
 ---
 # InfluxDB repository (influxdata) is configured by dj-wasabi.telegraf
 
-# TODO: use custom unit file like in redhat.yml
+# the new influxd-system-start.sh health checks are fairly broken
+- name: Install InfluxDB systemd service unit
+  copy:
+    src: influxdb.service
+    dest: /etc/systemd/system/influxdb.service
+    owner: root
+    group: root
+    mode: "0644"
+  register: __influxdb_service_unit_result
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: true
+  when: __influxdb_service_unit_result is changed
 
 - name: Install InfluxDB
   ansible.builtin.apt:
