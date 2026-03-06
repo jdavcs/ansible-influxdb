@@ -1,0 +1,10 @@
+---
+# InfluxDB repository (influxdata) is configured by dj-wasabi.telegraf
+
+# TODO: use custom unit file like in redhat.yml
+
+- name: Install InfluxDB
+  ansible.builtin.apt:
+    name: influxdb
+    state: "{{ 'latest' if influxdb_upgrade else 'present' }}"
+    update_cache: true

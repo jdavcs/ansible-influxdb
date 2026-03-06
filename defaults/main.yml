@@ -1,0 +1,10 @@
+---
+influxdb_upgrade: false
+influxdb_service_name: influxdb
+
+influxdb_backup_configs: false
+
+influxdb_conf_dir: /etc/influxdb
+influxdb_var_dir: /var/lib/influxdb
+
+influxdb_http_bind_address: ":8086"

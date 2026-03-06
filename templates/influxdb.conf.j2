@@ -1,0 +1,98 @@
+reporting-disabled = false
+bind-address = "127.0.0.1:8088"
+hostname = "{{ inventory_hostname }}"
+join = ""
+
+[meta]
+  dir = "{{ influxdb_var_dir }}/meta"
+  retention-autocreate = true
+  logging-enabled = true
+
+[data]
+  dir = "{{ influxdb_var_dir }}/data"
+  wal-dir = "{{ influxdb_var_dir }}/wal"
+  wal-logging-enabled = true
+  query-log-enabled = true
+  cache-max-memory-size = "128m"
+  cache-snapshot-memory-size = "32m"
+  cache-snapshot-write-cold-duration = "1h"
+  compact-full-write-cold-duration = "24h"
+
+[coordinator]
+  write-timeout = "5s"
+  max-concurrent-queries = 0
+  query-timeout = "0s"
+  log-queries-after = "0s"
+  max-select-point = 0
+  max-select-series = 0
+  max-select-buckets = 0
+
+[retention]
+  enabled = true
+  check-interval = "30m"
+
+[shard-precreation]
+  enabled = true
+  check-interval = "10m"
+  advance-period = "30m"
+
+[monitor]
+  store-enabled = true
+  store-database = "_internal"
+  store-interval = "10s"
+
+[http]
+  enabled = true
+  bind-address = "{{ influxdb_http_bind_address }}"
+{% if influxdb_users is defined and influxdb_auth_enabled is defined and influxdb_auth_enabled %}
+  auth-enabled = true
+{% else %}
+  auth-enabled = false
+{% endif %}
+  log-enabled = true
+  write-tracing = false
+  pprof-enabled = false
+{% if stats_ssl_certs is defined and influxdb_https_enabled is defined and influxdb_https_enabled %}
+  https-enabled = true
+  https-ca-certificate = "{{ influxdb_conf_dir }}/ca.crt"
+  https-certificate = "{{ influxdb_conf_dir }}/influxdb.crt"
+  https-private-key = "{{ influxdb_conf_dir }}/influxdb.key"
+{% elif influxdb_ssl_certificate is defined and influxdb_https_enabled is defined and influxdb_https_enabled %}
+  https-enabled = true
+  https-certificate = "{{ influxdb_ssl_certificate }}"
+  https-private-key = "{{ influxdb_ssl_certificate_key }}"
+{% else %}
+  https-enabled = false
+{% endif %}
+  max-row-limit = 0
+  max-connection-limit = 0
+
+[ifql]
+  enabled = false
+
+[logging]
+  format = "auto"
+  level = "info"
+  suppress-logo = false
+
+[subscriber]
+  enabled = false
+
+[[graphite]]
+  enabled = false
+
+[[collectd]]
+  enabled = false
+
+[[opentsdb]]
+  enabled = false
+
+[[udp]]
+  enabled = false
+
+[continuous_queries]
+  log-enabled = true
+  enabled = true
+  query-stats-enabled = false
+  run-interval = "1s"
+

@@ -1,0 +1,58 @@
+---
+- name: Include install tasks
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml"
+
+# If influxdb_user is defined, we assume non-standard dir paths
+- name: Create InfluxDB directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ influxdb_user }}"
+    group: "{{ influxdb_user }}"
+    mode: "0750"
+  loop:
+    - "{{ influxdb_conf_dir }}"
+    - "{{ influxdb_var_dir }}"
+  when: influxdb_user is defined
+
+- name: Copy InfluxDB configs
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ influxdb_conf_dir }}/{{ item }}"
+    mode: "0644"
+    backup: "{{ influxdb_backup_configs }}"
+  loop:
+    - influxdb.conf
+  notify:
+    - restart influxdb
+
+# Force a restart in case connection params have changed
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Ensure InfluxDB is started and running
+  ansible.builtin.systemd_service:
+    name: "{{ influxdb_service_name }}"
+    state: started
+    enabled: yes
+
+- name: InfluxDB user management
+  block:
+    - name: Install influxdb python module
+      ansible.builtin.pip:
+        name: influxdb
+
+    - name: Create InfluxDB users
+      community.general.influxdb_user:
+        admin: "{{ item.admin | default(omit) }}"
+        user_name: "{{ item.user_name | default(omit) }}"
+        user_password: "{{ item.user_password | default(omit) }}"
+        # FIXME: I think you ran things once w/o auth required to create users, running it again from scratch would
+        # error here since auth would be required but no users would exist.
+        login_username: "{{ stats_influxdb_users[0].user_name }}"
+        login_password: "{{ stats_influxdb_users[0].user_password }}"
+      loop: "{{ stats_influxdb_users | default([]) }}"
+      loop_control:
+        label: "{{ item.user_name }}"
+
+  when: stats_influxdb_users is defined
