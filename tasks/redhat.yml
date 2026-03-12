@@ -2,7 +2,7 @@
 # InfluxDB repository (influxdata) is configured by dj-wasabi.telegraf
 
 - name: Install InfluxDB
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: influxdb
     state: "{{ 'latest' if influxdb_upgrade else 'present' }}"
     update_cache: true

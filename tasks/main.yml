@@ -28,7 +28,7 @@
 
 # Force a restart in case connection params have changed
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Ensure InfluxDB is started and running
   ansible.builtin.systemd_service:
