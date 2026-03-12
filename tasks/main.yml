@@ -24,7 +24,7 @@
   loop:
     - influxdb.conf
   notify:
-    - restart influxdb
+    - Restart influxdb
 
 # Force a restart in case connection params have changed
 - name: Flush handlers
