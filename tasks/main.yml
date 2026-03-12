@@ -37,6 +37,7 @@
     enabled: true
 
 - name: InfluxDB user management
+  when: influxdb_users is defined
   block:
     - name: Install influxdb python module
       ansible.builtin.pip:
@@ -54,5 +55,3 @@
       loop: "{{ influxdb_users | default([]) }}"
       loop_control:
         label: "{{ item.user_name }}"
-
-  when: influxdb_users is defined
