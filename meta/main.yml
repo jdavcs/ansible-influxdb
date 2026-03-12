@@ -6,7 +6,7 @@ galaxy_info:
   description: Installation and configuration of InfluxDB
   company: The Galaxy Project
   license: MIT
-  min_ansible_version: 2.20
+  min_ansible_version: "2.20"
   github_branch: main
   platforms:
     - name: EL
@@ -15,7 +15,6 @@ galaxy_info:
     - name: GenericUNIX
       versions:
         - all
-        - any
     - name: Fedora
       versions:
         - all
@@ -28,7 +27,6 @@ galaxy_info:
     - name: GenericLinux
       versions:
         - all
-        - any
     - name: Debian
       versions:
         - all
