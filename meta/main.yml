@@ -1,12 +1,37 @@
 ---
 galaxy_info:
+  role_name: influxdb
   namespace: galaxyproject
-  author: John Davis, The Galaxy Project
-  description: your role description
+  author: The Galaxy Project
+  description: Installation and configuration of InfluxDB
   company: The Galaxy Project
   license: MIT
   min_ansible_version: 2.20
   github_branch: main
+  platforms:
+  - name: EL
+    versions:
+      - all
+  - name: GenericUNIX
+    versions:
+      - all
+      - any
+  - name: Fedora
+    versions:
+      - all
+  - name: Amazon
+    versions:
+      - all
+  - name: Ubuntu
+    versions:
+      - all
+  - name: GenericLinux
+    versions:
+      - all
+      - any
+  - name: Debian
+    versions:
+      - all
   galaxy_tags:
     - system
     - influxdb
