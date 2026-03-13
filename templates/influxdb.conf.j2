@@ -1,7 +1,5 @@
 reporting-disabled = false
 bind-address = "127.0.0.1:8088"
-hostname = "{{ inventory_hostname }}"
-join = ""
 
 [meta]
   dir = "{{ influxdb_var_dir }}/meta"
@@ -11,7 +9,6 @@ join = ""
 [data]
   dir = "{{ influxdb_var_dir }}/data"
   wal-dir = "{{ influxdb_var_dir }}/wal"
-  wal-logging-enabled = true
   query-log-enabled = true
   cache-max-memory-size = "128m"
   cache-snapshot-memory-size = "32m"
@@ -54,7 +51,6 @@ join = ""
   pprof-enabled = false
 {% if influxdb_ssl_certs is defined and influxdb_https_enabled %}
   https-enabled = true
-  https-ca-certificate = "{{ influxdb_conf_dir }}/ca.crt"
   https-certificate = "{{ influxdb_conf_dir }}/influxdb.crt"
   https-private-key = "{{ influxdb_conf_dir }}/influxdb.key"
 {% elif influxdb_ssl_certificate is defined and influxdb_https_enabled %}
@@ -66,9 +62,6 @@ join = ""
 {% endif %}
   max-row-limit = 0
   max-connection-limit = 0
-
-[ifql]
-  enabled = false
 
 [logging]
   format = "auto"
