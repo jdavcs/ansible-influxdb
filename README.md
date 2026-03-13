@@ -1,6 +1,8 @@
+-- this readme is a draft --
+
 # InfluxDB
 
-A brief description of the role goes here.
+Ansible role for installing and configuring InfluxDB.
 
 ## Requirements
 
