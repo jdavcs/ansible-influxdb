@@ -4,6 +4,7 @@
 
 # If influxdb_user is defined, we assume non-standard dir paths
 - name: Create InfluxDB directories
+  when: influxdb_user is defined
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -13,7 +14,6 @@
   loop:
     - "{{ influxdb_conf_dir }}"
     - "{{ influxdb_var_dir }}"
-  when: influxdb_user is defined
 
 - name: Copy InfluxDB configs
   ansible.builtin.template:
