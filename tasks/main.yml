@@ -40,8 +40,8 @@
   when: influxdb_users is defined
   block:
     - name: Install influxdb python module
-      ansible.builtin.pip:
-        name: influxdb
+      ansible.builtin.apt:
+        name: python3-influxdb
 
     - name: Create InfluxDB users
       community.general.influxdb_user:
