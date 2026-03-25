@@ -19,6 +19,8 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 - `influxdb_auth_enabled`: Description. Default: `false`
 - `influxdb_https_enabled`: Description. Default: `false`
 - `influxdb_user`: Description.
+- `influxdb_admin_user`: Admin username to create with all privileges. Optional.
+- `influxdb_admin_password`: Password for the admin user. Required if `influxdb_admin_user` is defined.
 - `influxdb_users`: Description.
 - `influxdb_ssl_certs`: Description.
 - `influxdb_ssl_certificate`: Description. Required if `influxdb_ssl_certs` is defined.
