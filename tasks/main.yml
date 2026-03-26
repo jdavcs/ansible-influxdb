@@ -48,6 +48,22 @@
     url_username: "{{ influxdb_admin_user }}"
     url_password: "{{ influxdb_admin_password }}"
     status_code: 200
+  register: _influxdb_admin_create
+  no_log: true
+
+- name: Update InfluxDB admin user password
+  when:
+    - influxdb_admin_user is defined
+    - _influxdb_admin_create.json.results[0].error is defined
+  ansible.builtin.uri:
+    url: "{{ influxdb_http_service_uri }}/query"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      q: "ALTER USER {{ influxdb_admin_user }} WITH PASSWORD '{{ influxdb_admin_password }}'"
+    url_username: "{{ influxdb_admin_user }}"
+    url_password: "{{ influxdb_admin_password }}"
+    status_code: 200
   no_log: true
 
 # Create regular users
@@ -65,4 +81,23 @@
   loop: "{{ influxdb_users | default([]) }}"
   loop_control:
     label: "{{ item.user_name }}"
+  register: _influxdb_users_create
+  no_log: true
+
+- name: Update InfluxDB user passwords
+  when:
+    - influxdb_users is defined
+    - item.json.results[0].error is defined
+  ansible.builtin.uri:
+    url: "{{ influxdb_http_service_uri }}/query"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      q: "ALTER USER {{ item.item.user_name }} WITH PASSWORD '{{ item.item.user_password }}'"
+    url_username: "{{ influxdb_admin_user }}"
+    url_password: "{{ influxdb_admin_password }}"
+    status_code: 200
+  loop: "{{ _influxdb_users_create.results }}"
+  loop_control:
+    label: "{{ item.item.user_name }}"
   no_log: true
