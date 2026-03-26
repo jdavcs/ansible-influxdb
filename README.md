@@ -14,7 +14,7 @@ Ansible role for installing and configuring InfluxDB.
 | influxdb_auth_enabled | `false` ||
 | influxdb_https_enabled | `false` ||
 | influxdb_http_protocol | `http://` or `https://` ||
-| influxdb_host | `localhost` ||
+| influxdb_http_host | `localhost` ||
 | influxdb_http_bind_address | `:8086` ||
 | influxdb_http_service_uri | protocol + host + bind_address ||
 | influxdb_admin_user || yes|
