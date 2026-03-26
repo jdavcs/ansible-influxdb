@@ -36,22 +36,31 @@
     state: started
     enabled: true
 
-- name: InfluxDB user management
-  when: influxdb_users is defined
-  block:
-    - name: Install influxdb python module
-      ansible.builtin.apt:
-        name: python3-influxdb
+- name: Create InfluxDB admin user
+  when: influxdb_admin_user is defined
+  ansible.builtin.uri:
+    url: "http://{{ influxdb_http_bind_address }}/query"  # TODO: https + proper vars
+    method: POST
+    body_format: form-urlencoded
+    body:
+      q: "CREATE USER {{ influxdb_admin_user }} WITH PASSWORD '{{ influxdb_admin_password }}' WITH ALL PRIVILEGES"
+    url_username: "{{ influxdb_admin_user }}"
+    url_password: "{{ influxdb_admin_password }}"
+    status_code: 200
+  no_log: true
 
-    - name: Create InfluxDB users
-      community.general.influxdb_user:
-        admin: "{{ item.admin | default(omit) }}"
-        user_name: "{{ item.user_name | default(omit) }}"
-        user_password: "{{ item.user_password | default(omit) }}"
-        # FIXME: I think you ran things once w/o auth required to create users, running it again from scratch would
-        # error here since auth would be required but no users would exist.
-        login_username: "{{ influxdb_users[0].user_name }}"
-        login_password: "{{ influxdb_users[0].user_password }}"
-      loop: "{{ influxdb_users | default([]) }}"
-      loop_control:
-        label: "{{ item.user_name }}"
+- name: Create InfluxDB users
+  when: influxdb_users is defined
+  ansible.builtin.uri:
+    url: "http://{{ influxdb_http_bind_address }}/query"  # TODO: https + proper vars
+    method: POST
+    body_format: form-urlencoded
+    body:
+      q: "CREATE USER {{ item.user_name }} WITH PASSWORD '{{ item.user_password }}'{{ ' WITH ALL PRIVILEGES' if item.admin | default(false) else '' }}"
+    url_username: "{{ influxdb_admin_user }}"
+    url_password: "{{ influxdb_admin_password }}"
+    status_code: 200
+  loop: "{{ influxdb_users | default([]) }}"
+  loop_control:
+    label: "{{ item.user_name }}"
+  no_log: true
