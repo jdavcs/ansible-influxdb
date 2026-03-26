@@ -61,7 +61,7 @@
     url_username: "{{ influxdb_admin_user }}"
     url_password: "{{ influxdb_admin_password }}"
     status_code: 200
-  loop: "{{ _influxdb_users_create.results }}"
+  loop: "{{ _influxdb_users_create.results | default([]) }}"
   loop_control:
     label: "{{ item.item.user_name }}"
   no_log: true
