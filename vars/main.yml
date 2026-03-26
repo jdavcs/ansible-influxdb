@@ -2,4 +2,4 @@
 influxdb_service_name: influxdb
 
 __influxdb_http_port: "{{ influxdb_http_bind_address.split(':')[-1] }}"
-influxdb_http_service_uri: "{{ influxdb_http_protocol }}{{ influxdb_host }}{{ __influxdb_http_port }}"
+influxdb_http_service_uri: "{{ influxdb_http_protocol }}{{ influxdb_http_host }}:{{ __influxdb_http_port }}"
