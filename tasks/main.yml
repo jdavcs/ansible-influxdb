@@ -36,10 +36,11 @@
     state: started
     enabled: true
 
+# Create at least one admin user
 - name: Create InfluxDB admin user
   when: influxdb_admin_user is defined
   ansible.builtin.uri:
-    url: "http://{{ influxdb_http_bind_address }}/query"  # TODO: https + proper vars
+    url: "{{ influxdb_http_protocol }}{{ influxdb_http_bind_address }}/query"
     method: POST
     body_format: form-urlencoded
     body:
@@ -49,10 +50,11 @@
     status_code: 200
   no_log: true
 
+# Create regular users
 - name: Create InfluxDB users
   when: influxdb_users is defined
   ansible.builtin.uri:
-    url: "http://{{ influxdb_http_bind_address }}/query"  # TODO: https + proper vars
+    url: "{{ influxdb_http_protocol }}{{ influxdb_http_bind_address }}/query"
     method: POST
     body_format: form-urlencoded
     body:

@@ -7,7 +7,8 @@ influxdb_backup_configs: false
 influxdb_conf_dir: /etc/influxdb
 influxdb_var_dir: /var/lib/influxdb
 
-influxdb_http_bind_address: ":8086"
-
 influxdb_auth_enabled: false
 influxdb_https_enabled: false
+
+influxdb_http_protocol: "{{ (influxdb_https_enabled | bool) | ternary('https://', 'http://') }}"
+influxdb_http_bind_address: ":8086"

@@ -41,7 +41,7 @@ bind-address = "127.0.0.1:8088"
 [http]
   enabled = true
   bind-address = "{{ influxdb_http_bind_address }}"
-{% if influxdb_users is defined and influxdb_auth_enabled %}
+{% if influxdb_admin_user is defined and influxdb_auth_enabled %}
   auth-enabled = true
 {% else %}
   auth-enabled = false
