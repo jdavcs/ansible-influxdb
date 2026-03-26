@@ -11,4 +11,6 @@ influxdb_auth_enabled: false
 influxdb_https_enabled: false
 
 influxdb_http_protocol: "{{ (influxdb_https_enabled | bool) | ternary('https://', 'http://') }}"
+influxdb_host: localhost
 influxdb_http_bind_address: ":8086"
+influxdb_http_service_uri: "{{ influxdb_http_protocol }}{{ influxdb_host }}{{ influxdb_http_bind_address }}"

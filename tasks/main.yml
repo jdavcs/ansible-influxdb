@@ -40,7 +40,7 @@
 - name: Create InfluxDB admin user
   when: influxdb_admin_user is defined
   ansible.builtin.uri:
-    url: "{{ influxdb_http_protocol }}{{ influxdb_http_bind_address }}/query"
+    url: "{{ influxdb_http_service_uri }}/query"
     method: POST
     body_format: form-urlencoded
     body:
@@ -54,7 +54,7 @@
 - name: Create InfluxDB users
   when: influxdb_users is defined
   ansible.builtin.uri:
-    url: "{{ influxdb_http_protocol }}{{ influxdb_http_bind_address }}/query"
+    url: "{{ influxdb_http_service_uri }}/query"
     method: POST
     body_format: form-urlencoded
     body:
