@@ -1,4 +1,12 @@
 ---
+
+- name: Verify required variables are defined
+  ansible.builtin.assert:
+    that:
+      - influxdb_admin_user is defined
+      - influxdb_admin_password is defined
+    fail_msg: "Required variable is not defined. See role documentation for required variables."
+
 - name: Include install tasks
   ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml"
 
