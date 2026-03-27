@@ -6,7 +6,6 @@ Ansible role for installing and configuring InfluxDB.
 
 | variable | default | required |
 |:---|:---|:---:|
-| influxdb_service_name | `influxdb` ||
 | influxdb_upgrade | `false` ||
 | influxdb_backup_configs | `false` ||
 | influxdb_conf_dir | `/etc/influxdb` ||
